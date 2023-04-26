@@ -72,6 +72,9 @@ public class GameArena extends JPanel implements Runnable, KeyListener, MouseLis
 	/**
 	 * Internal initialisation method - called by constructor methods.
 	 */
+
+	
+
 	private void init(int width, int height, boolean createWindow)
 	{
 		if (createWindow)
