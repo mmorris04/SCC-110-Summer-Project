@@ -544,7 +544,7 @@ public class GameArena extends JPanel implements Runnable, KeyListener, MouseLis
 		if (code == KeyEvent.VK_A)
 			left1 = yn;
 		if (code == KeyEvent.VK_D)
-			up1 = yn;
+			right1 = yn;
 		if (code == KeyEvent.VK_UP)
 			up2 = yn;
 		if (code == KeyEvent.VK_DOWN)

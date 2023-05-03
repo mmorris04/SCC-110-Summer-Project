@@ -31,5 +31,78 @@ public class Driver {
         gArena.addRectangle(CentreLine);
         gArena.addRectangle(Goal1);
         gArena.addRectangle(Goal2);
+
+        while (true) {
+
+            // Calculate Player 1's speed
+
+            Double player1XSpeed = 0.0;
+            Double player1YSpeed = 0.0;
+
+            if (gArena.up1Pressed()) {
+                player1YSpeed -= 3;
+            };
+            if (gArena.down1Pressed()) {
+                player1YSpeed += 3;
+            };
+            if (gArena.left1Pressed()) {
+                player1XSpeed -= 3;
+            };
+            if (gArena.right1Pressed()) {
+                player1XSpeed += 3;
+            };
+
+            // Calculate Player 2's speed
+            Double player2XSpeed = 0.0;
+            Double player2YSpeed = 0.0;
+
+            if (gArena.up2Pressed()) {
+                player2YSpeed -= 3;
+            };
+            if (gArena.down2Pressed()) {
+                player2YSpeed += 3;
+            };
+            if (gArena.left2Pressed()) {
+                player2XSpeed -= 3;
+            };
+            if (gArena.right2Pressed()) {
+                player2XSpeed += 3;
+            };
+
+            Double newPlayer1XPosition = Player1.getXPosition()+player1XSpeed;
+            Double newPlayer2XPosition = Player2.getXPosition()+player2XSpeed;
+
+            Double newPlayer1YPosition = Player1.getYPosition()+player1YSpeed;
+            Double newPlayer2YPosition = Player2.getYPosition()+player2YSpeed;
+
+            Boolean p1InXBoundary = (newPlayer1XPosition <= (CentreLine.getXPosition()-Player1.getSize()) && newPlayer1XPosition >= (Pitch.getXPosition()+Player1.getSize()));
+            Boolean p2InXBoundary = (newPlayer2XPosition >= (CentreLine.getXPosition()+CentreLine.getWidth()+Player1.getSize()) && newPlayer2XPosition <= (Pitch.getXPosition()+Pitch.getWidth()-Player1.getSize()));
+
+            Boolean p1InYBoundary = (newPlayer1YPosition >= (Pitch.getYPosition()+Player2.getSize()) && newPlayer1YPosition <= (Pitch.getYPosition()+Pitch.getHeight()-Player2.getSize()));
+            Boolean p2InYBoundary = (newPlayer2YPosition >= (Pitch.getYPosition()+Player2.getSize()) && newPlayer2YPosition <= (Pitch.getYPosition()+Pitch.getHeight()-Player2.getSize()));
+
+            if (p1InXBoundary) {
+                Player1.setXSpeed(player1XSpeed);
+                Player1.setXPosition(Player1.getXPosition()+player1XSpeed);
+            };
+
+            if (p1InYBoundary) {
+                Player1.setYSpeed(player1YSpeed);
+                Player1.setYPosition(Player1.getYPosition()+player1YSpeed);
+            };
+
+            if (p2InXBoundary) {
+                Player2.setXSpeed(player2XSpeed);
+                Player2.setXPosition(Player2.getXPosition()+player2XSpeed);
+            };
+
+            if (p2InYBoundary) {
+                Player2.setYSpeed(player2YSpeed);
+                Player2.setYPosition(Player2.getYPosition()+player2YSpeed);
+            };
+
+            gArena.pause();
+        }
+        
     }
 }
