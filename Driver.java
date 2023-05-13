@@ -1,5 +1,13 @@
 public class Driver {
+
+    public static double roundto1DP(double num) {
+        double multiplier = Math.pow(10, 1);
+        double roundedNum = Math.round(num * multiplier) / multiplier;
+        return roundedNum;
+    };
+
     public static void main(String args[]) {
+        double friction = 0.01;
         GameArena gArena = new GameArena(1200, 720, true);
 
         Player Player1 = new Player(gArena, 350, 360, 50, "BLUE", 10, "Player1");
@@ -7,9 +15,9 @@ public class Driver {
        
         Pitch pitch = new Pitch(gArena);
         
-        Ball Puck = new Ball(600, 360, 50, "RED", 20);
-        Puck.setXSpeed(6);
-        Puck.setYSpeed(6);
+        Ball Puck = new Ball(650, 360, 30, "BLACK", 20);
+        //Puck.setXSpeed(6);
+        //Puck.setYSpeed(6);
         gArena.addBall(Puck);
         while (true) {
 
@@ -60,33 +68,54 @@ public class Driver {
             
             Player1.movePlayer(player1XSpeed, player1YSpeed, pitch, Puck);
             Player2.movePlayer(player2XSpeed, player2YSpeed, pitch, Puck);
+            
+            Double newPuckXPosition = roundto1DP(Puck.getXPosition()+Puck.getXSpeed());
+            Double newPuckYPosition = roundto1DP(Puck.getYPosition()+Puck.getYSpeed());
 
-            Double newPuckXPosition = Puck.getXPosition()+Puck.getXSpeed();
-            Double newPuckYPosition = Puck.getYPosition()+Puck.getYSpeed();
             if (pitch.IsInXBoundary(Puck, newPuckXPosition)) {
-                if ((Player1.isTouchingPuck(Puck) && Player2.isTouchingPuck(Puck)) == false) {
-                    System.out.println("Puck moved to new X position");
+                //if ((Player1.isTouchingPuck(Puck) && Player2.isTouchingPuck(Puck)) == false) {
+                    //System.out.println("Puck moved to new X position");
                     Puck.setXPosition(newPuckXPosition);
-                }
+                //}
             }
             else {
-                System.out.println("Puck X speed inversed");
+                //System.out.println("Puck X speed inversed");
                 Puck.setXSpeed(Puck.getXSpeed()*-1);
             };
 
             if (pitch.IsInYBoundary(Puck, newPuckYPosition)) {
-                if ((Player1.isTouchingPuck(Puck) && Player2.isTouchingPuck(Puck)) == false) {
-                    System.out.println("Puck moved to new Y position");
+                //if ((Player1.isTouchingPuck(Puck) && Player2.isTouchingPuck(Puck)) == false) {
+                    //System.out.println("Puck moved to new Y position");
                     Puck.setYPosition(newPuckYPosition);
-                }
+                //}
                 
             }
             else {
-                System.out.println("Puck Y speed inversed");
+                //System.out.println("Puck Y speed inversed");
                 Puck.setYSpeed(Puck.getYSpeed()*-1);
             };
 
             
+            if (Puck.getXSpeed() > 0 && ((Puck.getXSpeed()-friction) >= 0)) {
+                Puck.setXSpeed(Puck.getXSpeed()-friction);
+            }
+            else if (Puck.getXSpeed() < 0 && ((Puck.getXSpeed()+friction) <= 0)) {
+                Puck.setXSpeed(Puck.getXSpeed()+friction);
+            }
+            else if ( (Puck.getXSpeed() > 0 && ((Puck.getXSpeed()-friction) < friction)) || (Puck.getXSpeed() < 0 && ((Puck.getXSpeed()+friction) > -friction))) {
+                Puck.setXSpeed(0);
+            
+            };
+            
+            if (Puck.getYSpeed() > 0 && ((Puck.getYSpeed()-friction) >= 0)) {
+                Puck.setYSpeed(Puck.getYSpeed()-friction);
+            }
+            else if (Puck.getYSpeed() < 0 && ((Puck.getYSpeed()+friction) <= 0)) {
+                Puck.setYSpeed(Puck.getYSpeed()+friction);
+            }
+            else if ( (Puck.getYSpeed() > 0 && ((Puck.getYSpeed()-friction) < friction)) || (Puck.getYSpeed() < 0 && ((Puck.getYSpeed()+friction) > -friction)) ) {
+                Puck.setYSpeed(0);
+            };
 
             gArena.pause();
         }

@@ -55,18 +55,42 @@ public class Player {
     }
     public void deflectPuck(Ball puckBall) {
 
-        double multiX = 1;
-        double multiY = 1;
+        double newXSpeed = 0;
+        double newYSpeed = 0;
 
-        if (puckBall.getXSpeed() < 0) {
-            multiX = -1;
+
+        if (Character.getXSpeed() == 0) {
+            newXSpeed = puckBall.getXSpeed() *-1;
+        }
+        if (Character.getYSpeed() == 0) {
+            newYSpeed = puckBall.getYSpeed() *-1;
+        }
+
+        
+
+        if (Character.getXSpeed() > 0 && puckBall.getXSpeed() > 0 || (Character.getXSpeed() < 0 && puckBall.getXSpeed() < 0) ) {
+            newXSpeed = puckBall.getXSpeed() *-1;
+        }
+        if ((Character.getYSpeed() > 0 && puckBall.getYSpeed() > 0) || (Character.getYSpeed() < 0 && puckBall.getYSpeed() < 0) ) {
+            newYSpeed = puckBall.getYSpeed() *-1;
+        }
+
+        if (puckBall.getXSpeed() == 0) {
+            newXSpeed = Character.getXSpeed()*1.5;
         };
-        if (puckBall.getYSpeed() < 0) {
-            multiY = -1;
+        if (puckBall.getYSpeed() == 0) {
+            newYSpeed = Character.getYSpeed()*1.5;
         };
 
-		puckBall.setXSpeed(puckBall.getXSpeed()*multiX);
-		puckBall.setYSpeed(puckBall.getYSpeed()*multiY);
+        if ((Character.getXSpeed() > 0 && puckBall.getXSpeed() < 0) || (Character.getXSpeed() < 0 && puckBall.getXSpeed() > 0)) {
+            newXSpeed = Character.getXSpeed()*1.5;
+        }
+        if ((Character.getYSpeed() > 0 && puckBall.getYSpeed() < 0) || (Character.getYSpeed() < 0 && puckBall.getYSpeed() > 0)) {
+            newYSpeed = Character.getYSpeed()*1.5;
+        }
+        
+		puckBall.setXSpeed(newXSpeed);
+		puckBall.setYSpeed(newYSpeed);
 	};
     public boolean isTouchingPuck(Ball puck) {
         double a = puck.getXPosition()-Character.getXPosition();
@@ -74,7 +98,9 @@ public class Player {
         double c2 = (a * a) + (b * b);
         double c = Math.sqrt(c2);
 
-        return (c <= ((Character.getSize()/2)+(puck.getSize()/2)));
+        // System.out.println("c: "+ c);
+        // System.out.println("required dist: "+ ((Character.getSize()/2)+(puck.getSize()/2)+0.5));
+        return (c <= ((Character.getSize()/2)+(puck.getSize()/2))+2);
     }
 
     public boolean isTouchingPuck(Ball puck, double newXPosition, double newYPosition) {
@@ -83,7 +109,7 @@ public class Player {
         double c2 = (a * a) + (b * b);
         double c = Math.sqrt(c2);
 
-        return (c <= ((Character.getSize()/2)+(puck.getSize()/2)));
+        return (c < ((Character.getSize()/2)+(puck.getSize()/2)));
     }
 
     public void movePlayer(double newXSpeed, double newYSpeed, Pitch pitch, Ball puck) {
@@ -94,9 +120,9 @@ public class Player {
         Boolean pIn2XBoundary = pitch.IsIn2XBoundary(Character, newXPosition);
 
         Boolean pInYBoundary = pitch.IsInYBoundary(Character, newYPosition);
-        Boolean isTouchingPuck = isTouchingPuck(puck, newXPosition, newYPosition);
+        Boolean isGoingToTouchPuck = isTouchingPuck(puck, newXPosition, newYPosition);
 
-        if (isTouchingPuck == false) {
+        if (isGoingToTouchPuck == false) {
             if ((pIn1XBoundary && CharacterName == "Player1") || (pIn2XBoundary && CharacterName == "Player2")) {
                 Character.setXSpeed(newXSpeed);
                 Character.setXPosition(newXPosition);
