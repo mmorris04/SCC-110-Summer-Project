@@ -73,10 +73,10 @@ public class Driver {
             Double newPuckYPosition = roundto1DP(Puck.getYPosition()+Puck.getYSpeed());
 
             if (pitch.IsInXBoundary(Puck, newPuckXPosition)) {
-                //if ((Player1.isTouchingPuck(Puck) && Player2.isTouchingPuck(Puck)) == false) {
+                if ((Player1.isTouchingPuck(Puck) && Player2.isTouchingPuck(Puck)) == false) {
                     //System.out.println("Puck moved to new X position");
                     Puck.setXPosition(newPuckXPosition);
-                //}
+                }
             }
             else {
                 //System.out.println("Puck X speed inversed");
@@ -84,10 +84,10 @@ public class Driver {
             };
 
             if (pitch.IsInYBoundary(Puck, newPuckYPosition)) {
-                //if ((Player1.isTouchingPuck(Puck) && Player2.isTouchingPuck(Puck)) == false) {
+                if ((Player1.isTouchingPuck(Puck) && Player2.isTouchingPuck(Puck)) == false) {
                     //System.out.println("Puck moved to new Y position");
                     Puck.setYPosition(newPuckYPosition);
-                //}
+                }
                 
             }
             else {
