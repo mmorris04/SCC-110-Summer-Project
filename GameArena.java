@@ -496,13 +496,13 @@ public class GameArena extends JPanel implements Runnable, KeyListener, MouseLis
 
 	
 	/**
-	 * Pause for a 3 seconds.
-	 * This method causes your program to delay for 3 seconds.
+	 * Pause for a 1 seconds.
+	 * This method causes your program to delay for 1 seconds.
 	 *
 	 */
 
 	public void longPause() {
-		try { Thread.sleep(3000); }
+		try { Thread.sleep(1000); }
 		catch (Exception e) {};
 	}
 
