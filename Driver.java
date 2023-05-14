@@ -1,4 +1,17 @@
+import java.awt.event.KeyEvent;
+import java.lang.management.GarbageCollectorMXBean;
+
 public class Driver {
+
+    static int winningScore = 5;
+    static double friction = 0.01;
+    static GameArena gArena;
+    static SoundPlayer soundPlayer = new SoundPlayer();
+    static Player Player1;
+    static Player Player2;
+    static Pitch Pitch;
+    static Ball Puck;
+    static boolean GameActive = false;
 
     public static double roundto1DP(double num) {
         double multiplier = Math.pow(10, 1);
@@ -6,20 +19,41 @@ public class Driver {
         return roundedNum;
     };
 
-    public static void main(String args[]) {
-        double friction = 0.01;
-        GameArena gArena = new GameArena(1200, 720, true);
-
-        Player Player1 = new Player(gArena, 350, 360, 50, "BLUE", 10, "Player1");
-        Player Player2 = new Player(gArena, 850, 360, 50, "BLUE", 10, "Player2");
-       
-        Pitch pitch = new Pitch(gArena);
+    public static void StartRound(int PlayerTurn) {
+        GameActive = true;
         
-        Ball Puck = new Ball(650, 360, 30, "BLACK", 20);
-        //Puck.setXSpeed(6);
-        //Puck.setYSpeed(6);
         gArena.addBall(Puck);
-        while (true) {
+        // Reset puck and player positions 
+
+        if (PlayerTurn == 1) {
+            Pitch.UpdateStatus("Player 1 is serving!");
+            Puck.setXPosition(550);
+            Puck.setYPosition(360);
+        }
+        else {
+            Pitch.UpdateStatus("Player 1 is serving!");
+            Puck.setXPosition(650);
+            Puck.setYPosition(360);
+        };
+        Puck.setXSpeed(0);
+        Puck.setYSpeed(0);
+
+        Player1.setXPosition(350);
+        Player1.setYPosition(360);
+        Player1.setXSpeed(0);
+        Player1.setYSpeed(0);
+
+        Player2.setXPosition(850);
+        Player2.setYPosition(360);
+        Player2.setXSpeed(0);
+        Player2.setYSpeed(0);
+
+        while (GameActive == true) {
+
+            Double player1XSpeed = 0.0;
+            Double player1YSpeed = 0.0;
+            Double player2XSpeed = 0.0;
+            Double player2YSpeed = 0.0;
 
             if (Player1.isTouchingPuck(Puck)) {
                 System.out.println("Player 1 touching puck");
@@ -29,11 +63,6 @@ public class Driver {
                 System.out.println("Player 2 touching puck");
                 Player2.deflectPuck(Puck);
             };
-
-            // Calculate Player 1's speed
-
-            Double player1XSpeed = 0.0;
-            Double player1YSpeed = 0.0;
 
             if (gArena.up1Pressed()) {
                 player1YSpeed -= 4;
@@ -47,10 +76,6 @@ public class Driver {
             if (gArena.right1Pressed()) {
                 player1XSpeed += 4;
             };
-
-            // Calculate Player 2's speed
-            Double player2XSpeed = 0.0;
-            Double player2YSpeed = 0.0;
 
             if (gArena.up2Pressed()) {
                 player2YSpeed -= 4;
@@ -66,33 +91,30 @@ public class Driver {
             };
 
             
-            Player1.movePlayer(player1XSpeed, player1YSpeed, pitch, Puck);
-            Player2.movePlayer(player2XSpeed, player2YSpeed, pitch, Puck);
-            
+            Player1.movePlayer(player1XSpeed, player1YSpeed, Pitch, Puck);
+            Player2.movePlayer(player2XSpeed, player2YSpeed, Pitch, Puck);
+
             Double newPuckXPosition = roundto1DP(Puck.getXPosition()+Puck.getXSpeed());
             Double newPuckYPosition = roundto1DP(Puck.getYPosition()+Puck.getYSpeed());
 
-            if (pitch.IsInXBoundary(Puck, newPuckXPosition)) {
+            if (Pitch.IsInXBoundary(Puck, newPuckXPosition)) {
                 if ((Player1.isTouchingPuck(Puck) && Player2.isTouchingPuck(Puck)) == false) {
-                    //System.out.println("Puck moved to new X position");
                     Puck.setXPosition(newPuckXPosition);
                 }
             }
             else {
-                //System.out.println("Puck X speed inversed");
                 Puck.setXSpeed(Puck.getXSpeed()*-1);
+                soundPlayer.PlaySound("bounce.wav");
             };
 
-            if (pitch.IsInYBoundary(Puck, newPuckYPosition)) {
+            if (Pitch.IsInYBoundary(Puck, newPuckYPosition)) {
                 if ((Player1.isTouchingPuck(Puck) && Player2.isTouchingPuck(Puck)) == false) {
-                    //System.out.println("Puck moved to new Y position");
                     Puck.setYPosition(newPuckYPosition);
                 }
-                
             }
             else {
-                //System.out.println("Puck Y speed inversed");
                 Puck.setYSpeed(Puck.getYSpeed()*-1);
+                soundPlayer.PlaySound("bounce.wav");
             };
 
             
@@ -117,8 +139,63 @@ public class Driver {
                 Puck.setYSpeed(0);
             };
 
+            int IsTouchingGoal = Pitch.IsTouchingGoal(Puck);
+
+            if (IsTouchingGoal == 1) {
+                Player2.setScore(Player2.getScore() + 1);
+                Pitch.UpdateStatus("Player 2 scored!");
+                soundPlayer.PlaySound("applause.wav");
+                Puck.setXPosition(-200);
+                GameActive = false;
+            }
+            else if (IsTouchingGoal == 2) {
+                Player1.setScore(Player1.getScore() + 1);
+                Pitch.UpdateStatus("Player 1 scored!");
+                soundPlayer.PlaySound("applause.wav");
+                Puck.setXPosition(-200);
+                GameActive = false;
+            }
             gArena.pause();
+        };
+        Pitch.UpdateScores(Player1.getScore(), Player2.getScore());
+
+        gArena.longPause();
+        if (Player1.getScore() >= winningScore && Player1.getScore() != Player2.getScore()) {
+            Pitch.UpdateStatus("Player 1 wins! Press space to play another round!");
+            soundPlayer.PlaySound("drumroll.wav");
         }
-        
+        else if (Player2.getScore() >= winningScore && Player1.getScore() != Player2.getScore()) {
+            Pitch.UpdateStatus("Player 2 wins! Press space to play another round!");
+            soundPlayer.PlaySound("drumroll.wav");
+        }
+        else {
+            if (PlayerTurn == 1) {
+                StartRound(2);
+            }
+            else {
+                StartRound(1);
+            }
+        };
+
+
+    };
+    public static void main(String args[]) {
+        gArena = new GameArena(1200, 720, true);
+        soundPlayer = new SoundPlayer();
+        Player1 = new Player(gArena, 350, 360, 50, "BLUE", 10, "Player1");
+        Player2 = new Player(gArena, 850, 360, 50, "BLUE", 10, "Player2");
+        Pitch = new Pitch(gArena);
+        Puck = new Ball(650, 360, 30, "BLACK", 20);
+
+        while (true) {
+            soundPlayer.PlaySound("fanfare.wav");
+            StartRound(1);
+            while (gArena.spacePressed() == false) {
+                gArena.pause();
+            }
+            Player1.setScore(0);
+            Player2.setScore(0);
+            Pitch.UpdateScores(0, 0);
+        }
     }
 }
