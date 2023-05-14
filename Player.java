@@ -1,11 +1,13 @@
-import java.net.CacheRequest;
 import java.lang.Math;
+
 
 public class Player {
     private int Score;
     private Ball Character;
     private GameArena gArena;
     private String CharacterName;
+    private SoundPlayer soundPlayer = new SoundPlayer();
+
     public Player(GameArena garena, int x, int y, int diameter, String colour, int layer, String charName) {
         Character = new Ball(x, y, diameter, colour, layer);
         Score = 0;
@@ -13,6 +15,7 @@ public class Player {
         gArena.addBall(Character);
         CharacterName = charName;
     }
+
     public double getXPosition() {
         return Character.getXPosition();
     }
@@ -51,7 +54,7 @@ public class Player {
     }
 
     public void setScore(int score) {
-        Score += score;
+        Score = score;
     }
     public void deflectPuck(Ball puckBall) {
 
@@ -67,7 +70,6 @@ public class Player {
         }
 
         
-
         if (Character.getXSpeed() > 0 && puckBall.getXSpeed() > 0 || (Character.getXSpeed() < 0 && puckBall.getXSpeed() < 0) ) {
             newXSpeed = puckBall.getXSpeed() *-1;
         }
@@ -76,19 +78,21 @@ public class Player {
         }
 
         if (puckBall.getXSpeed() == 0) {
-            newXSpeed = Character.getXSpeed()*1.5;
+            newXSpeed = Character.getXSpeed()*2;
         };
         if (puckBall.getYSpeed() == 0) {
-            newYSpeed = Character.getYSpeed()*1.5;
+            newYSpeed = Character.getYSpeed()*2;
         };
 
         if ((Character.getXSpeed() > 0 && puckBall.getXSpeed() < 0) || (Character.getXSpeed() < 0 && puckBall.getXSpeed() > 0)) {
-            newXSpeed = Character.getXSpeed()*1.5;
+            newXSpeed = Character.getXSpeed()*2;
         }
         if ((Character.getYSpeed() > 0 && puckBall.getYSpeed() < 0) || (Character.getYSpeed() < 0 && puckBall.getYSpeed() > 0)) {
-            newYSpeed = Character.getYSpeed()*1.5;
+            newYSpeed = Character.getYSpeed()*2;
         }
         
+        soundPlayer.PlaySound("hit.wav");
+
 		puckBall.setXSpeed(newXSpeed);
 		puckBall.setYSpeed(newYSpeed);
 	};
@@ -131,7 +135,11 @@ public class Player {
             if (pInYBoundary) {
                 Character.setYSpeed(newYSpeed);
                 Character.setYPosition(newYPosition);
-            };
+            }
+        }
+        else {
+            Character.setYPosition(Character.getYPosition()-newYSpeed/4);
+            Character.setXPosition(Character.getXPosition()-newXSpeed/4);
         };
         
     }
