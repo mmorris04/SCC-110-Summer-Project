@@ -6,7 +6,7 @@ import javax.swing.*;
 
 public class SoundPlayer {
     public SoundPlayer() {
-        
+        PlaySound("fanfare.wav");
     };
 
     public void PlaySound(String soundName) {
