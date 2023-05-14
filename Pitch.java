@@ -35,6 +35,47 @@ public class Pitch {
         gArena.addText(player1Score);
         gArena.addText(player2Score);
     };
+
+    public void UpdateScores(int p1score, int p2score) {
+        player1Score.setText(Integer.toString(p1score));
+        player2Score.setText(Integer.toString(p2score));
+    }
+
+    public void UpdateStatus(String newStatus) {
+        status.setText(newStatus);
+    }
+
+    public int IsTouchingGoal(Ball puck) {
+        boolean touchingLeftGoal = (
+            (puck.getXPosition()-(puck.getSize()/2) <= goal1.getXPosition()+goal1.getWidth()) 
+            &&
+            (
+                (puck.getYPosition()+puck.getSize()/2 >= goal1.getYPosition()) 
+                &&
+                (puck.getYPosition()-puck.getSize()/2 <= goal1.getYPosition()+goal1.getHeight())
+            )
+        );
+        
+        boolean touchingRightGoal = (
+            (puck.getXPosition()+(puck.getSize()/2) >= goal2.getXPosition()) 
+            &&
+            (
+                (puck.getYPosition()+puck.getSize()/2 >= goal2.getYPosition()) 
+                &&
+                (puck.getYPosition()-puck.getSize()/2 <= goal2.getYPosition()+goal2.getHeight())
+            )
+        );
+
+        if (touchingLeftGoal) {
+            return 1;
+        }
+        else if (touchingRightGoal) {
+            return 2;
+        }
+        else {
+            return 0;
+        }
+    }
     public Boolean IsInXBoundary(Ball ball, Double desiredPosition) {
         return (desiredPosition >= (pitch.getXPosition()+(ball.getSize()/2)) && desiredPosition <= ((pitch.getWidth()+pitch.getXPosition())-(ball.getSize()/2)));
     }
