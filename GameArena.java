@@ -25,16 +25,10 @@ public class GameArena extends JPanel implements Runnable, KeyListener, MouseLis
 
 	private HashMap<String, Color> colours = new HashMap<>();
 
-	private boolean up1 = false;
-	private boolean down1 = false;
-	private boolean left1 = false;
-	private boolean right1 = false;
-
-	private boolean up2 = false;
-	private boolean down2 = false;
-	private boolean left2 = false;
-	private boolean right2 = false;
-
+	private boolean up = false;
+	private boolean down = false;
+	private boolean left = false;
+	private boolean right = false;
 	private boolean shift = false;
 	private boolean space = false;
 	private boolean esc = false;
@@ -494,18 +488,6 @@ public class GameArena extends JPanel implements Runnable, KeyListener, MouseLis
 		}
 	}
 
-	
-	/**
-	 * Pause for a 1 seconds.
-	 * This method causes your program to delay for 1 seconds.
-	 *
-	 */
-
-	public void longPause() {
-		try { Thread.sleep(1000); }
-		catch (Exception e) {};
-	}
-
 	/**
 	 * Pause for a 1/50 of a second.
 	 * This method causes your program to delay for 1/50th of a second. You'll find this useful if you're trying to animate your application.
@@ -551,22 +533,14 @@ public class GameArena extends JPanel implements Runnable, KeyListener, MouseLis
 	public void keyAction(KeyEvent e,boolean yn)
 	{
 		int code = e.getKeyCode();
-		if (code == KeyEvent.VK_W)
-			up1 = yn;
-		if (code == KeyEvent.VK_S)
-			down1 = yn;	
-		if (code == KeyEvent.VK_A)
-			left1 = yn;
-		if (code == KeyEvent.VK_D)
-			right1 = yn;
 		if (code == KeyEvent.VK_UP)
-			up2 = yn;
+			up = yn;
 		if (code == KeyEvent.VK_DOWN)
-			down2 = yn;
+			down = yn;
 		if (code == KeyEvent.VK_LEFT)
-			left2 = yn;
+			left = yn;
 		if (code == KeyEvent.VK_RIGHT)
-			right2 = yn;
+			right = yn;
 		if (code == KeyEvent.VK_SPACE)
 			space = yn;
 		if (code == KeyEvent.VK_SHIFT)
@@ -651,76 +625,39 @@ public class GameArena extends JPanel implements Runnable, KeyListener, MouseLis
 	}
 
 	/**
-	 * Determines if the player 1 is currently pressing the cursor up button.
+	 * Determines if the user is currently pressing the cursor up button.
 	 * @return true if the up button is pressed, false otherwise.
 	 */
-	public boolean up1Pressed()
+	public boolean upPressed()
 	{
-		return up1;
+		return up;
 	}
 
 	/**
-	 * Determines if the player 1 is currently pressing the cursor down button.
+	 * Determines if the user is currently pressing the cursor down button.
 	 * @return true if the down button is pressed, false otherwise.
 	 */
-	public boolean down1Pressed()
+	public boolean downPressed()
 	{
-		return down1;
+		return down;
 	}
 
 	/**
-	 * Determines if the player 1 is currently pressing the cursor left button.
+	 * Determines if the user is currently pressing the cursor left button.
 	 * @return true if the left button is pressed, false otherwise.
 	 */
-	public boolean left1Pressed()
+	public boolean leftPressed()
 	{
-		return left1;
+		return left;
 	}
 
 	/**
-	 * Determines if the player 1 is currently pressing the cursor right button.
+	 * Determines if the user is currently pressing the cursor right button.
 	 * @return true if the right button is pressed, false otherwise.
 	 */
-	public boolean right1Pressed()
+	public boolean rightPressed()
 	{
-		return right1;
-	}
-
-
-	/**
-	 * Determines if the player 2 is currently pressing the cursor up button.
-	 * @return true if the up button is pressed, false otherwise.
-	 */
-	public boolean up2Pressed()
-	{
-		return up2;
-	}
-
-	/**
-	 * Determines if the player 2 is currently pressing the cursor down button.
-	 * @return true if the down button is pressed, false otherwise.
-	 */
-	public boolean down2Pressed()
-	{
-		return down2;
-	}
-
-	/**
-	 * Determines if the player 2 is currently pressing the cursor left button.
-	 * @return true if the left button is pressed, false otherwise.
-	 */
-	public boolean left2Pressed()
-	{
-		return left2;
-	}
-
-	/**
-	 * Determines if the player 2 is currently pressing the cursor right button.
-	 * @return true if the right button is pressed, false otherwise.
-	 */
-	public boolean right2Pressed()
-	{
-		return right2;
+		return right;
 	}
 
 
