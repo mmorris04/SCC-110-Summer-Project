@@ -50,6 +50,10 @@ public class Driver {
 
         while (GameActive == true) {
 
+            if (gArena.letterPressed('M')) {
+                soundPlayer.ToggleMute();
+            };
+            
             Double player1XSpeed = 0.0;
             Double player1YSpeed = 0.0;
             Double player2XSpeed = 0.0;
@@ -79,11 +83,11 @@ public class Driver {
 
             if (Player1.isTouchingPuck(Puck)) {
                 System.out.println("Player 1 touching puck");
-                Player1.deflectPuck(Puck);
+                Player1.deflectPuck(Puck, soundPlayer);
             };
             if (Player2.isTouchingPuck(Puck)) {
                 System.out.println("Player 2 touching puck");
-                Player2.deflectPuck(Puck);
+                Player2.deflectPuck(Puck, soundPlayer);
             };
 
             if (gArena.letterPressed('W')) {
@@ -98,7 +102,7 @@ public class Driver {
             if (gArena.letterPressed('D')) {
                 player1XSpeed += 4;
             };
-            
+
             if (gArena.upPressed()) {
                 player2YSpeed -= 4;
             };
@@ -113,14 +117,10 @@ public class Driver {
             };
 
             
-
             
             Player1.movePlayer(player1XSpeed, player1YSpeed, Pitch, Puck);
             Player2.movePlayer(player2XSpeed, player2YSpeed, Pitch, Puck);
 
-            
-
-            
             if (Puck.getXSpeed() > 0 && ((Puck.getXSpeed()-friction) >= 0)) {
                 Puck.setXSpeed(Puck.getXSpeed()-friction);
             }
