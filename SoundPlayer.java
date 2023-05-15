@@ -10,13 +10,10 @@ public class SoundPlayer {
     public SoundPlayer() {
     };
 
-    public void MuteSound() {
-        muted = true;
+    public void ToggleMute() {
+        muted = !muted;
     }
 
-    public void UnmuteSound() {
-        muted = false;
-    }
     
     public void PlaySound(String soundName) {
         
