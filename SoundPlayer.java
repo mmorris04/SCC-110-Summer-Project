@@ -5,17 +5,30 @@ import javax.swing.*;
 
 
 public class SoundPlayer {
+    private boolean muted = false;
+
     public SoundPlayer() {
-        PlaySound("fanfare.wav");
     };
 
+    public void MuteSound() {
+        muted = true;
+    }
+
+    public void UnmuteSound() {
+        muted = false;
+    }
+    
     public void PlaySound(String soundName) {
+        
         try {
-            URL url = this.getClass().getClassLoader().getResource(soundName);
-            AudioInputStream audioIn = AudioSystem.getAudioInputStream(url);
-            Clip clip = AudioSystem.getClip(); 
-            clip.open(audioIn);
-            clip.start();
+            if (muted == false) {
+                URL url = this.getClass().getClassLoader().getResource(soundName);
+                AudioInputStream audioIn = AudioSystem.getAudioInputStream(url);
+                Clip clip = AudioSystem.getClip(); 
+                clip.open(audioIn);
+                clip.start();
+            };
+            
         } catch (UnsupportedAudioFileException e) {
             e.printStackTrace();
         } catch (IOException e) {

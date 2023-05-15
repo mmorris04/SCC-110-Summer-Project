@@ -54,46 +54,6 @@ public class Driver {
             Double player1YSpeed = 0.0;
             Double player2XSpeed = 0.0;
             Double player2YSpeed = 0.0;
-
-            if (Player1.isTouchingPuck(Puck)) {
-                System.out.println("Player 1 touching puck");
-                Player1.deflectPuck(Puck);
-            };
-            if (Player2.isTouchingPuck(Puck)) {
-                System.out.println("Player 2 touching puck");
-                Player2.deflectPuck(Puck);
-            };
-
-            if (gArena.up1Pressed()) {
-                player1YSpeed -= 4;
-            };
-            if (gArena.down1Pressed()) {
-                player1YSpeed += 4;
-            };
-            if (gArena.left1Pressed()) {
-                player1XSpeed -= 4;
-            };
-            if (gArena.right1Pressed()) {
-                player1XSpeed += 4;
-            };
-
-            if (gArena.up2Pressed()) {
-                player2YSpeed -= 4;
-            };
-            if (gArena.down2Pressed()) {
-                player2YSpeed += 4;
-            };
-            if (gArena.left2Pressed()) {
-                player2XSpeed -= 4;
-            };
-            if (gArena.right2Pressed()) {
-                player2XSpeed += 4;
-            };
-
-            
-            Player1.movePlayer(player1XSpeed, player1YSpeed, Pitch, Puck);
-            Player2.movePlayer(player2XSpeed, player2YSpeed, Pitch, Puck);
-
             Double newPuckXPosition = roundto1DP(Puck.getXPosition()+Puck.getXSpeed());
             Double newPuckYPosition = roundto1DP(Puck.getYPosition()+Puck.getYSpeed());
 
@@ -116,6 +76,49 @@ public class Driver {
                 Puck.setYSpeed(Puck.getYSpeed()*-1);
                 soundPlayer.PlaySound("bounce.wav");
             };
+
+            if (Player1.isTouchingPuck(Puck)) {
+                System.out.println("Player 1 touching puck");
+                Player1.deflectPuck(Puck);
+            };
+            if (Player2.isTouchingPuck(Puck)) {
+                System.out.println("Player 2 touching puck");
+                Player2.deflectPuck(Puck);
+            };
+
+            if (gArena.letterPressed('W')) {
+                player1YSpeed -= 4;
+            };
+            if (gArena.letterPressed('S')) {
+                player1YSpeed += 4;
+            };
+            if (gArena.letterPressed('A')) {
+                player1XSpeed -= 4;
+            };
+            if (gArena.letterPressed('D')) {
+                player1XSpeed += 4;
+            };
+            
+            if (gArena.upPressed()) {
+                player2YSpeed -= 4;
+            };
+            if (gArena.downPressed()) {
+                player2YSpeed += 4;
+            };
+            if (gArena.leftPressed()) {
+                player2XSpeed -= 4;
+            };
+            if (gArena.rightPressed()) {
+                player2XSpeed += 4;
+            };
+
+            
+
+            
+            Player1.movePlayer(player1XSpeed, player1YSpeed, Pitch, Puck);
+            Player2.movePlayer(player2XSpeed, player2YSpeed, Pitch, Puck);
+
+            
 
             
             if (Puck.getXSpeed() > 0 && ((Puck.getXSpeed()-friction) >= 0)) {
@@ -159,7 +162,9 @@ public class Driver {
         };
         Pitch.UpdateScores(Player1.getScore(), Player2.getScore());
 
-        gArena.longPause();
+        try { Thread.sleep(1000); }
+		catch (Exception e) {};
+
         if (Player1.getScore() >= winningScore && Player1.getScore() != Player2.getScore()) {
             Pitch.UpdateStatus("Player 1 wins! Press space to play another round!");
             soundPlayer.PlaySound("drumroll.wav");
