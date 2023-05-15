@@ -1,19 +1,17 @@
-# SCC110-AirHockey
+Ice Hockey Game by Matthew Morris 
 
-This repository contains the following files for the SCC.110 project "Air Hockey" (Project 2 in 2022/23):
 
-**Java classes (.java files)**
-+ Ball.java
-+ GameArena.java
-+ Line.java
-+ Rectangle.java
-+ Text.java
+How to run this program:
+- Navigate to the folder inside the terminal
+- Compile all java files by typing "javac *.java" into the command bar
+- Run the Driver class by typing "java Driver"
 
-**Sound effects (.wav files)**
-+ applause.wav
-+ bounce.wav
-+ drumroll.wav
-+ fanfare.wav
-+ hit.wav
 
-The folder **\docs** contains JavaDoc documentation. Click on *allclasses-index.html* to access the documentation.
+Features of this program:
+- Graphical interface utilising multiple different classes.
+- A single match is made up of multiple rounds, first player who scores against the other wins the round & first player who gets a score of 5 wins the match.
+- Playable with 2 players with easy to use controls (WASD for Player 1, Arrow keys for Player 2)
+- Physics-based puck movement
+- Sound Effects (can be muted by pressing "M" on your keyboard)
+
+
