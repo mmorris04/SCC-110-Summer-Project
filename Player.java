@@ -6,7 +6,6 @@ public class Player {
     private Ball Character;
     private GameArena gArena;
     private String CharacterName;
-    private SoundPlayer soundPlayer = new SoundPlayer();
 
     public Player(GameArena garena, int x, int y, int diameter, String colour, int layer, String charName) {
         Character = new Ball(x, y, diameter, colour, layer);
@@ -56,7 +55,7 @@ public class Player {
     public void setScore(int score) {
         Score = score;
     }
-    public void deflectPuck(Ball puckBall) {
+    public void deflectPuck(Ball puckBall, SoundPlayer soundPlayer) {
 
         double newXSpeed = 0;
         double newYSpeed = 0;
