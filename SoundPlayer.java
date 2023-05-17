@@ -10,8 +10,9 @@ public class SoundPlayer {
     public SoundPlayer() {
     };
 
-    public void ToggleMute() {
+    public void ToggleMute(Pitch pitch) {
         muted = !muted;
+        pitch.UpdateMuteStatus(muted);
     }
 
     
@@ -24,6 +25,15 @@ public class SoundPlayer {
                 Clip clip = AudioSystem.getClip(); 
                 clip.open(audioIn);
                 clip.start();
+                clip.addLineListener(new LineListener(){
+                    public void update(LineEvent e) {
+                        if (e.getType() == LineEvent.Type.STOP) {
+                            clip.drain();
+                            clip.close();
+                        }
+                    }
+                });
+
             };
             
         } catch (UnsupportedAudioFileException e) {
