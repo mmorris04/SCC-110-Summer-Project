@@ -1,22 +1,33 @@
 import  java.io.*; 
 import java.net.URL; 
 import javax.sound.sampled.*;
-import javax.swing.*;
 
-
+/**
+    * This class plays sound effects.
+*/
 public class SoundPlayer {
     private boolean muted = false;
 
+    /**
+	 * Creates a new SoundPlayer object.
+	 */
     public SoundPlayer() {
     };
 
-    public void ToggleMute(Pitch pitch) {
+    /**
+    * Muteds & unmutes sound effects.
+    * @param pitch The pitch the game is being played on.
+    */
+    public void toggleMute(Pitch pitch) {
         muted = !muted;
-        pitch.UpdateMuteStatus(muted);
+        pitch.updateMuteStatus(muted);
     }
 
-    
-    public void PlaySound(String soundName) {
+    /**
+	* Plays a given sound effect.
+	* @param soundName The decimal to be rounded to 1 decimal place.
+	*/
+    public void playSound(String soundName) {
         
         try {
             if (muted == false) {

@@ -1,3 +1,7 @@
+/**
+* This class represents the Air Hockey Pitch.
+*/
+
 public class Pitch {
 
     private Rectangle pitch;
@@ -13,6 +17,10 @@ public class Pitch {
     private String goal1MovementDirection = "UP";
     private String goal2MovementDirection = "UP";
 
+    /**
+	* Creates a new pitch object.
+	* @param gArena The GameArena object.
+	*/
     public Pitch(GameArena gArena) {
         border = new Rectangle(100, 100, 1000, 520, "BLUE", 0);
         pitch = new Rectangle(125, 125, 950, 470, "WHITE", 1);
@@ -44,7 +52,10 @@ public class Pitch {
         gArena.addText(player2Score);
     };
 
-    // Move the goal up and down (for cheats)
+    /**
+	* Moves a given goal up and down
+	* @param goalName The name of the goal to be moved
+	*/
     public void moveGoal(String goalName) {
         if (goalName == "Goal1") {
             if (goal1MovementDirection == "UP" && goal1.getYPosition()<=pitch.getYPosition()) {
@@ -80,6 +91,10 @@ public class Pitch {
         }
     }
 
+    /**
+	* Resets a given goals position back to normal.
+	* @param goalName The name of the goal to be reset
+	*/
     // Reset a goals position back to normal
     public void resetGoalPos(String goalName) {
         if (goalName == "Goal1") {
@@ -92,22 +107,37 @@ public class Pitch {
         }
     }
     
-    public void UpdateScoreToWin(int newscore) {
+    /**
+	* Updates the winning score label with a given score.
+	* @param pos The new winning score value
+	*/
+    public void updateScoreToWin(int newscore) {
         scoreToWin.setText("Score needed to win: "+Integer.toString(newscore));
     }
-    // Update the scoreboard
-    public void UpdateScores(int p1score, int p2score) {
+    
+    /**
+	* Updates the scores for both players.
+	* @param p1score Player 1's score
+    * @param p2score Player 2's score
+	*/
+    public void updateScores(int p1score, int p2score) {
         player1Score.setText(Integer.toString(p1score));
         player2Score.setText(Integer.toString(p2score));
     }
 
-    // Update the message which appears on the top left of the screen
-    public void UpdateStatus(String newStatus) {
+    /**
+	* Updates the status label on the top left of the pitch.
+	* @param newStatus The new text to be displayed.
+	*/
+    public void updateStatus(String newStatus) {
         status.setText(newStatus);
     }
 
-    // Update the mute tip on the bottom right of the screen
-    public void UpdateMuteStatus(boolean muted) {
+    /**
+	* Updates the mute status label on the bottom right of the pitch.
+	* @param muted The new muted value.
+	*/
+    public void updateMuteStatus(boolean muted) {
         if (muted) {
             muteStatus.setText("Press M to unmute SFX");
         }
@@ -116,8 +146,11 @@ public class Pitch {
         }
     }
 
-    // Check if a given puck is touching either of the goals
-    public int IsTouchingGoal(Ball puck) {
+    /**
+	* Check if a given puck is touching either goal.
+	* @param puck The puck.
+	*/
+    public int isTouchingGoal(Ball puck) {
         boolean touchingLeftGoal = (
             (puck.getXPosition()-(puck.getSize()/2) <= goal1.getXPosition()+goal1.getWidth()) 
             &&
@@ -149,23 +182,39 @@ public class Pitch {
         }
     }
 
-    // Check if a given ball is within the X boundary (for the puck)
-    public Boolean IsInXBoundary(Ball ball, Double desiredPosition) {
+    /**
+	* Checks whether a given ball is within the X boundaries of the pitch at a hypothetical X position.
+	* @param ball The ball.
+    * @param desiredPosition The hypothetical X position of the ball.
+	*/
+    public Boolean isInXBoundary(Ball ball, Double desiredPosition) {
         return (desiredPosition >= (pitch.getXPosition()+(ball.getSize()/2)) && desiredPosition <= ((pitch.getWidth()+pitch.getXPosition())-(ball.getSize()/2)));
     }
         
-    // Check if a given ball is within the Y boundary of the pitch
-    public Boolean IsInYBoundary(Ball ball, Double desiredPosition) {
+    /**
+	* Checks whether a given ball is within the Y boundaries of the pitch at a hypothetical Y position.
+	* @param ball The ball.
+    * @param desiredPosition The hypothetical Y position of the ball.
+	*/
+    public Boolean isInYBoundary(Ball ball, Double desiredPosition) {
         return (desiredPosition >= (pitch.getYPosition()+ball.getSize()/2) && desiredPosition <= (pitch.getYPosition()+pitch.getHeight()-(ball.getSize()/2)));
     }
     
-    // Check if a given ball is within the X boundary of the left side of the pitch
-    public Boolean IsIn1XBoundary(Ball ball, Double desiredPosition) {
+    /**
+	* Checks whether a given ball is within the X boundaries of the left side of the pitch at a hypothetical X position.
+	* @param ball The ball.
+    * @param desiredPosition The hypothetical X position of the ball.
+	*/
+    public Boolean isIn1XBoundary(Ball ball, Double desiredPosition) {
         return (desiredPosition <= ((centreLine.getXPosition()+1)-(ball.getSize()/2)) && desiredPosition >= (pitch.getXPosition()+(ball.getSize()/2)));
     }
 
-    // Check if a given ball is within the X boundary of the right side of the pitch
-    public Boolean IsIn2XBoundary(Ball ball, Double desiredPosition) {
+    /**
+	* Checks whether a given ball is within the X boundaries of the right side of the pitch at a hypothetical X position.
+	* @param ball The ball.
+    * @param desiredPosition The hypothetical X position of the ball.
+	*/
+    public Boolean isIn2XBoundary(Ball ball, Double desiredPosition) {
         return (desiredPosition >= (centreLine.getXPosition()+(ball.getSize()/2)) && desiredPosition <= ((pitch.getWidth()+pitch.getXPosition())-(ball.getSize()/2)));
     }
 }
