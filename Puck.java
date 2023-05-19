@@ -37,7 +37,7 @@ public class Puck {
             
             if (Player1TouchingPuck == false && Player2TouchingPuck == false) {
                 //If it isn't touching Player 1 or Player 2 set it's position (to prevent the puck going inside the mallet)
-                setXPosition(newPuckXPosition, pitch);
+                setXPosition(newPuckXPosition, pitch, false);
             }
             else if (Player1TouchingPuck) {
                 Player1.deflectPuck(this, soundPlayer, pitch);
@@ -50,7 +50,7 @@ public class Puck {
         }
         else {
             //If puck is touching boundary reverse its speed and play bound sound effect
-            setXPosition(getXPosition()+(getXSpeed()*-1), pitch);
+            setXPosition(getXPosition()+(getXSpeed()*-1), pitch, false);
             setXSpeed(getXSpeed()*-1);
             soundPlayer.playSound("bounce.wav");
         };
@@ -58,7 +58,7 @@ public class Puck {
         if (pitch.isInYBoundary(getPuckObj(), newPuckYPosition)) {
             if (Player1TouchingPuck == false && Player2TouchingPuck == false) {
                 //If it isn't touching Player 1 or Player 2 set it's position (to prevent the puck going inside the mallet)
-                setYPosition(newPuckYPosition, pitch);
+                setYPosition(newPuckYPosition, pitch, false);
             }
             else if (Player1TouchingPuck) {
                 Player1.deflectPuck(this, soundPlayer, pitch);
@@ -71,7 +71,7 @@ public class Puck {
         }
         else {
             //If puck is touching boundary reverse its speed and play bound sound effect
-            setYPosition(getYPosition()+(getYSpeed()*-1), pitch);
+            setYPosition(getYPosition()+(getYSpeed()*-1), pitch, false);
             setYSpeed(getYSpeed()*-1);
             soundPlayer.playSound("bounce.wav");
         };
@@ -159,18 +159,28 @@ public class Puck {
     /**
 	* Set the X position of the puck to a given value.
 	* @param pos The new X position value
+    * @param pitch The pitch the game is being played on
+    * @param forced Whether or not the position change ignores the pitch boundary
 	*/
-    public void setXPosition(double pos, Pitch pitch) {
-        if (pitch.isInXBoundary(PuckObj, pos)) {
+    public void setXPosition(double pos, Pitch pitch, boolean forced) {
+        if (pitch.isInXBoundary(PuckObj, pos) && !forced) {
+            PuckObj.setXPosition(pos);
+        }
+        else if (forced) {
             PuckObj.setXPosition(pos);
         }
     }
     /**
 	* Set the Y position of the puck to a given value .
 	* @param num The decimal to be rounded to 1 decimal place.
+    * @param pitch The pitch the game is being played on
+    * @param forced Whether or not the position change ignores the pitch boundary
 	*/
-    public void setYPosition(double pos, Pitch pitch) {
-        if (pitch.isInYBoundary(PuckObj, pos)) {
+    public void setYPosition(double pos, Pitch pitch, boolean forced) {
+        if (pitch.isInYBoundary(PuckObj, pos) && !forced) {
+            PuckObj.setYPosition(pos);
+        }
+        else if (forced) {
             PuckObj.setYPosition(pos);
         }
     }

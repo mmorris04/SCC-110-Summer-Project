@@ -45,13 +45,13 @@ public class Driver {
 
         if (PlayerTurn == 1) {
             Pitch.updateStatus("Player 1 is serving!");
-            Puck.setXPosition(550, Pitch);
-            Puck.setYPosition(360, Pitch);
+            Puck.setXPosition(550, Pitch, true);
+            Puck.setYPosition(360, Pitch, true);
         }
         else {
             Pitch.updateStatus("Player 1 is serving!");
-            Puck.setXPosition(650, Pitch);
-            Puck.setYPosition(360, Pitch);
+            Puck.setXPosition(650, Pitch, true);
+            Puck.setYPosition(360, Pitch, true);
         };
         Puck.setXSpeed(0);
         Puck.setYSpeed(0);
@@ -80,7 +80,7 @@ public class Driver {
                 Player2.setScore(Player2.getScore() + 1);
                 Pitch.updateStatus("Player 2 scored!");
                 soundPlayer.playSound("applause.wav");
-                Puck.setXPosition(-200, Pitch);
+                Puck.setXPosition(-200, Pitch, true);
                 gameActive = false;
                 PlayerScored = 2;
             }
@@ -88,7 +88,7 @@ public class Driver {
                 Player1.setScore(Player1.getScore() + 1);
                 Pitch.updateStatus("Player 1 scored!");
                 soundPlayer.playSound("applause.wav");
-                Puck.setXPosition(-200, Pitch);
+                Puck.setXPosition(-200, Pitch, true);
                 gameActive = false;
                 PlayerScored = 1;
             }
