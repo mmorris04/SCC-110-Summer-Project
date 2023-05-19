@@ -12,7 +12,7 @@ public class Driver {
     static Player Player1;
     static Player Player2;
     static Pitch Pitch;
-    static Ball Puck;
+    static Puck Puck;
 
     // Game Values
 
@@ -29,16 +29,7 @@ public class Driver {
     static boolean goal1Moving = false;
     static boolean goal2Moving = false;
 
-    /**
-	 * Round to 1 decimal place.
-	 * @param num The decimal to be rounded to 1 decimal place.
-	 */
-
-    private static double roundTo1DP(double num) {
-        double multiplier = Math.pow(10, 1);
-        double roundedNum = Math.round(num * multiplier) / multiplier;
-        return roundedNum;
-    };
+    
 
     /**
 	 * Start a round of Air Hockey.
@@ -48,18 +39,19 @@ public class Driver {
     public static void startRound(int PlayerTurn) {
         gameActive = true;
         int PlayerScored = 0;
-        gArena.addBall(Puck);
+
+
         // Reset puck and player positions 
 
         if (PlayerTurn == 1) {
             Pitch.updateStatus("Player 1 is serving!");
-            Puck.setXPosition(550);
-            Puck.setYPosition(360);
+            Puck.setXPosition(550, Pitch);
+            Puck.setYPosition(360, Pitch);
         }
         else {
             Pitch.updateStatus("Player 1 is serving!");
-            Puck.setXPosition(650);
-            Puck.setYPosition(360);
+            Puck.setXPosition(650, Pitch);
+            Puck.setYPosition(360, Pitch);
         };
         Puck.setXSpeed(0);
         Puck.setYSpeed(0);
@@ -75,23 +67,20 @@ public class Driver {
         Player2.setYSpeed(0);
 
         while (gameActive == true) {
-
-            // Handle cheats
-            
             
             handleKeyEvents(Pitch);
-            handlePuckCollisions();
+            Puck.handlePuckCollisions(Pitch, Player1, Player2); 
+            Puck.handlePuckFriction(friction);           
             handlePlayerMovement();
-            handlePuckFriction();
             
             // Check if puck is touching goals
-            int IsTouchingGoal = Pitch.isTouchingGoal(Puck);
+            int IsTouchingGoal = Pitch.isTouchingGoal(Puck.getPuckObj());
 
             if (IsTouchingGoal == 1) {
                 Player2.setScore(Player2.getScore() + 1);
                 Pitch.updateStatus("Player 2 scored!");
                 soundPlayer.playSound("applause.wav");
-                Puck.setXPosition(-200);
+                Puck.setXPosition(-200, Pitch);
                 gameActive = false;
                 PlayerScored = 2;
             }
@@ -99,7 +88,7 @@ public class Driver {
                 Player1.setScore(Player1.getScore() + 1);
                 Pitch.updateStatus("Player 1 scored!");
                 soundPlayer.playSound("applause.wav");
-                Puck.setXPosition(-200);
+                Puck.setXPosition(-200, Pitch);
                 gameActive = false;
                 PlayerScored = 1;
             }
@@ -115,11 +104,11 @@ public class Driver {
 
         // Check if either player has won the match
         if (Player1.getScore() >= winningScore && Player1.getScore() != Player2.getScore()) {
-            Pitch.updateStatus("Player 1 wins! Press space to play another round!");
+            Pitch.updateStatus("Player 1 wins! Press space to play another match!");
             soundPlayer.playSound("drumroll.wav");
         }
         else if (Player2.getScore() >= winningScore && Player1.getScore() != Player2.getScore()) {
-            Pitch.updateStatus("Player 2 wins! Press space to play another round!");
+            Pitch.updateStatus("Player 2 wins! Press space to play another match!");
             soundPlayer.playSound("drumroll.wav");
         }
         else {
@@ -167,11 +156,11 @@ public class Driver {
         // Big puck cheat
         if (gArena.letterPressed('G')) {
             if (bigPuck == true) {
-                Puck.setSize(30);
+                Puck.getPuckObj().setSize(30);
                 bigPuck = false;
             }   
             else {
-                Puck.setSize(60);
+                Puck.getPuckObj().setSize(60);
                 bigPuck = true;
             }
             try { Thread.sleep(500); }
@@ -252,84 +241,6 @@ public class Driver {
     }
 
     /**
-	 * Reduces puck speed using the friction variable.
-	 */
-
-    private static void handlePuckFriction() {
-        // Reduce puck X speed by friction value until almost 0
-        if (Puck.getXSpeed() > 0 && ((Puck.getXSpeed()-friction) >= 0)) {
-            Puck.setXSpeed(Puck.getXSpeed()-friction);
-        }
-        // If speed is negative, increase speed by friction value until almost 0
-        else if (Puck.getXSpeed() < 0 && ((Puck.getXSpeed()+friction) <= 0)) {
-            Puck.setXSpeed(Puck.getXSpeed()+friction);
-        }
-        // If speed is less than friction value but greater than 0, set speed to 0
-        else if ( (Puck.getXSpeed() > 0 && ((Puck.getXSpeed()-friction) < friction)) || (Puck.getXSpeed() < 0 && ((Puck.getXSpeed()+friction) > -friction))) {
-            Puck.setXSpeed(0);
-        
-        };
-        
-        // Reduce puck Y speed by friction value until almost 0
-        if (Puck.getYSpeed() > 0 && ((Puck.getYSpeed()-friction) >= 0)) {
-            Puck.setYSpeed(Puck.getYSpeed()-friction);
-        }
-        // If speed is negative, increase speed by friction until almost 0
-        else if (Puck.getYSpeed() < 0 && ((Puck.getYSpeed()+friction) <= 0)) {
-            Puck.setYSpeed(Puck.getYSpeed()+friction);
-        }
-        // If speed is greater than friction value but less than 0, set speed to 0
-        else if ( (Puck.getYSpeed() > 0 && ((Puck.getYSpeed()-friction) < friction)) || (Puck.getYSpeed() < 0 && ((Puck.getYSpeed()+friction) > -friction)) ) {
-            Puck.setYSpeed(0);
-        };
-    }
-
-
-    /**
-	 * Handles the pucks collisions with the pitch boundary.
-	*/
-    private static void handlePuckCollisions() {
-        Double newPuckXPosition = roundTo1DP(Puck.getXPosition()+Puck.getXSpeed());
-        Double newPuckYPosition = roundTo1DP(Puck.getYPosition()+Puck.getYSpeed());
-
-        // Check if puck fits inside the X boundary of the pitch
-
-        if (Pitch.isInXBoundary(Puck, newPuckXPosition)) {
-            if ((Player1.isTouchingPuck(Puck) && Player2.isTouchingPuck(Puck)) == false) {
-                //If it isn't touching Player 1 or Player 2 set it's position (to prevent the puck going inside the mallet)
-                Puck.setXPosition(newPuckXPosition);
-            }
-        }
-        else {
-            //If puck is touching boundary reverse its speed and play bound sound effect
-            Puck.setXSpeed(Puck.getXSpeed()*-1);
-            soundPlayer.playSound("bounce.wav");
-        };
-
-        if (Pitch.isInYBoundary(Puck, newPuckYPosition)) {
-            if ((Player1.isTouchingPuck(Puck) && Player2.isTouchingPuck(Puck)) == false) {
-                //If it isn't touching Player 1 or Player 2 set it's position (to prevent the puck going inside the mallet)
-                Puck.setYPosition(newPuckYPosition);
-            }
-        }
-        else {
-            //If puck is touching boundary reverse its speed and play bound sound effect
-            Puck.setYSpeed(Puck.getYSpeed()*-1);
-            soundPlayer.playSound("bounce.wav");
-        };
-
-        // Check if either player is touching puck and deflect if they are
-        if (Player1.isTouchingPuck(Puck)) {
-            System.out.println("Player 1 touching puck");
-            Player1.deflectPuck(Puck, soundPlayer);
-        };
-        if (Player2.isTouchingPuck(Puck)) {
-            System.out.println("Player 2 touching puck");
-            Player2.deflectPuck(Puck, soundPlayer);
-        };
-    }
-
-    /**
 	 * Handles Key Inputs by the player exclusively for movement controls.
 	 */
     private static void handlePlayerMovement() {
@@ -370,8 +281,8 @@ public class Driver {
         };
 
         // Move both players
-        Player1.movePlayer(player1XSpeed, player1YSpeed, Pitch, soundPlayer);
-        Player2.movePlayer(player2XSpeed, player2YSpeed, Pitch, soundPlayer); 
+        Player1.movePlayer(player1XSpeed, player1YSpeed, Pitch, soundPlayer, Puck);
+        Player2.movePlayer(player2XSpeed, player2YSpeed, Pitch, soundPlayer, Puck); 
     }
 
     public static void main(String args[]) {
@@ -381,9 +292,10 @@ public class Driver {
         gArena = new GameArena(1200, 720, true);
         soundPlayer = new SoundPlayer();
         Player1 = new Player(gArena, 350, 360, 50, "BLUE", 10, "Player1");
-        Player2 = new Player(gArena, 850, 360, 50, "BLUE", 10, "Player2");
+        Player2 = new Player(gArena, 850, 360, 50, "RED", 10, "Player2");
         Pitch = new Pitch(gArena);
-        Puck = new Ball(650, 360, 30, "BLACK", 20);
+        Puck = new Puck(gArena, 550, 360, 30, "BLACK", 20, soundPlayer);
+        
         Pitch.updateStatus("Press space to start a round!");
         
         while (true) {
