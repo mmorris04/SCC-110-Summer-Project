@@ -5,7 +5,8 @@
 public class Pitch {
 
     private Rectangle pitch;
-    private Rectangle border;
+    private Rectangle blueborder;
+    private Rectangle redborder;
     private Rectangle centreLine;
     private Rectangle goal1;
     private Rectangle goal2;
@@ -22,9 +23,10 @@ public class Pitch {
 	* @param gArena The GameArena object.
 	*/
     public Pitch(GameArena gArena) {
-        border = new Rectangle(100, 100, 1000, 520, "BLUE", 0);
+        blueborder = new Rectangle(100, 100, 500, 520, "BLUE", 0);
+        redborder = new Rectangle(600, 100,500, 520, "RED",0);
         pitch = new Rectangle(125, 125, 950, 470, "WHITE", 1);
-        centreLine = new Rectangle(599, 100, 2, 520, "BLUE", 2);
+        centreLine = new Rectangle(599, 100, 2, 520, "BLACK", 2);
         goal1 = new Rectangle(125, 270, 15, 180, "GREY", 2);
         goal2 = new Rectangle(1060, 270, 15, 180, "GREY", 2);
         status = new Text("Null", 35, 50, 50, "GREEN");
@@ -34,12 +36,13 @@ public class Pitch {
         scoreToWin = new Text("Score needed to win: 5", 35, 35, 680, "WHITE");
 
         Ball MiddleCircleWhite = new Ball(600, 360, 80, "WHITE", 3);
-        Ball MiddleCircleBlue = new Ball(600, 360, 84, "BLUE", 2);
+        Ball MiddleCircleBlue = new Ball(600, 360, 84, "BLACK", 2);
 
         gArena.addBall(MiddleCircleBlue);
         gArena.addBall(MiddleCircleWhite);
 
-        gArena.addRectangle(border);
+        gArena.addRectangle(blueborder);
+        gArena.addRectangle(redborder);
         gArena.addRectangle(pitch);
         gArena.addRectangle(centreLine);
         gArena.addRectangle(goal1);
