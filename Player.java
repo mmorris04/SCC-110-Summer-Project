@@ -200,8 +200,8 @@ public class Player {
         // System.out.print(xSpeed2+", "+ySpeed2+"\n");
 		puckBall.setXSpeed(xSpeed2);
 		puckBall.setYSpeed(ySpeed2);
-        puckBall.setXPosition(puckBall.getXPosition()+(xSpeed2*2), pitch, false);
-        puckBall.setYPosition(puckBall.getYPosition()+(ySpeed2*2), pitch, false);
+        puckBall.setXPosition(puckBall.getXPosition()+(xSpeed2), pitch, false);
+        puckBall.setYPosition(puckBall.getYPosition()+(ySpeed2), pitch, false);
 	};
 
     /**

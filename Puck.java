@@ -39,13 +39,17 @@ public class Puck {
                 //If it isn't touching Player 1 or Player 2 set it's position (to prevent the puck going inside the mallet)
                 setXPosition(newPuckXPosition, pitch, false);
             }
-            else if (Player1TouchingPuck) {
-                Player1.deflectPuck(this, soundPlayer, pitch);
-                return 0;
-            }
-            else if (Player2TouchingPuck) {
-                Player2.deflectPuck(this, soundPlayer, pitch);
-                return 0;
+            else {
+                if (Player1TouchingPuck) {
+                    Player1.deflectPuck(this, soundPlayer, pitch);
+                    return 0;
+                }
+                if (Player2TouchingPuck) {
+                    Player2.deflectPuck(this, soundPlayer, pitch);
+                    return 0;
+                    
+                }
+            
             }
         }
         else {
@@ -60,13 +64,15 @@ public class Puck {
                 //If it isn't touching Player 1 or Player 2 set it's position (to prevent the puck going inside the mallet)
                 setYPosition(newPuckYPosition, pitch, false);
             }
-            else if (Player1TouchingPuck) {
-                Player1.deflectPuck(this, soundPlayer, pitch);
-                return 0;
-            }
-            else if (Player2TouchingPuck) {
-                Player2.deflectPuck(this, soundPlayer, pitch);
-                return 0;
+            else {
+                if (Player1TouchingPuck) {
+                    Player1.deflectPuck(this, soundPlayer, pitch);
+                    return 0;
+                }
+                if (Player2TouchingPuck) {
+                    Player2.deflectPuck(this, soundPlayer, pitch);
+                    return 0;
+                }
             }
         }
         else {

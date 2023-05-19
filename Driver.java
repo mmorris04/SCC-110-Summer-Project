@@ -45,12 +45,12 @@ public class Driver {
 
         if (PlayerTurn == 1) {
             Pitch.updateStatus("Player 1 is serving!");
-            Puck.setXPosition(550, Pitch, true);
+            Puck.setXPosition(560, Pitch, true);
             Puck.setYPosition(360, Pitch, true);
         }
         else {
-            Pitch.updateStatus("Player 1 is serving!");
-            Puck.setXPosition(650, Pitch, true);
+            Pitch.updateStatus("Player 2 is serving!");
+            Puck.setXPosition(640, Pitch, true);
             Puck.setYPosition(360, Pitch, true);
         };
         Puck.setXSpeed(0);
@@ -294,7 +294,7 @@ public class Driver {
         Player1 = new Player(gArena, 350, 360, 50, "BLUE", 10, "Player1");
         Player2 = new Player(gArena, 850, 360, 50, "RED", 10, "Player2");
         Pitch = new Pitch(gArena);
-        Puck = new Puck(gArena, 550, 360, 30, "BLACK", 20, soundPlayer);
+        Puck = new Puck(gArena, 560, 360, 30, "BLACK", 20, soundPlayer);
         
         Pitch.updateStatus("Press space to start a round!");
         
@@ -309,6 +309,10 @@ public class Driver {
             Player1.setScore(0);
             Player2.setScore(0);
             Pitch.updateScores(0, 0);
+
+            // Stop the moving goals
+            goal1Moving = false;
+            goal2Moving = false;
 
             // Play sound at beginning of match
 
