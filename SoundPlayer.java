@@ -31,16 +31,16 @@ public class SoundPlayer {
         
         try {
             if (muted == false) {
-                URL url = this.getClass().getClassLoader().getResource(soundName);
-                AudioInputStream audioIn = AudioSystem.getAudioInputStream(url);
-                Clip clip = AudioSystem.getClip(); 
-                clip.open(audioIn);
-                clip.start();
+                URL url = this.getClass().getClassLoader().getResource(soundName); // Get url to sound file
+                AudioInputStream audioIn = AudioSystem.getAudioInputStream(url); // Get audio input stream for url
+                Clip clip = AudioSystem.getClip(); // Get audiosystem clip
+                clip.open(audioIn); // Open the clip
+                clip.start(); // Start
                 clip.addLineListener(new LineListener(){
                     public void update(LineEvent e) {
-                        if (e.getType() == LineEvent.Type.STOP) {
-                            clip.drain();
-                            clip.close();
+                        if (e.getType() == LineEvent.Type.STOP) { // Wait for clip to finish
+                            clip.drain(); // Clean up memory
+                            clip.close(); // Close the clip
                         }
                     }
                 });

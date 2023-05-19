@@ -137,7 +137,7 @@ public class Player {
         double initialXSpeed2 = puckBall.getXSpeed();
         double initialYSpeed2 = puckBall.getYSpeed();
 
-        if (initialXSpeed1 == 0 && initialYSpeed1 == 0) { // If mallet speed is 0 just act as a boundary
+        if (initialXSpeed1 == 0 && initialYSpeed1 == 0) { // If mallet speed is 0 just act as a boundary and inverse their speed + halve it
             xSpeed2 = (xSpeed2*-1)/2;
             ySpeed2 = (ySpeed2*-1)/2;
         }
@@ -198,10 +198,14 @@ public class Player {
         }
         
         // System.out.print(xSpeed2+", "+ySpeed2+"\n");
+
+        // Set puck to new speed
 		puckBall.setXSpeed(xSpeed2);
 		puckBall.setYSpeed(ySpeed2);
+
+        // Move puck away from mallet
         puckBall.setXPosition(puckBall.getXPosition()+(xSpeed2), pitch, false);
-        puckBall.setYPosition(puckBall.getYPosition()+(ySpeed2), pitch, false);
+        puckBall.setYPosition(puckBall.getYPosition()+(ySpeed2), pitch, false); 
 	};
 
     /**
