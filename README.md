@@ -19,6 +19,7 @@ Features of this program:
     - F for faster mallets
     - J for player 1 moving goal
     - K for player 2 moving goal
+    - R to restart the current round
     - Arrow keys to increase and decrease winning score (Only works between matches).
 
 The folder **\documentation** contains javadoc documentation. Click on the *allclasses-index.html* file to access the documentation.
