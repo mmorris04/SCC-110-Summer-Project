@@ -62,7 +62,7 @@ public class Player {
     }
     /**
 	* Set the Y position of the players mallet to a given value .
-	* @param num The decimal to be rounded to 1 decimal place.
+	* @param pos The decimal to be rounded to 1 decimal place.
 	*/
     public void setYPosition(double pos) {
         Mallet.setYPosition(pos);
@@ -77,7 +77,7 @@ public class Player {
     }
     /**
 	* Set the X speed of the players mallet to a given value.
-	* @param pos The new X speed value
+	* @param speed The new X speed value
 	*/
     public void setXSpeed(double speed) {
         Mallet.setXSpeed(speed);
@@ -85,7 +85,7 @@ public class Player {
 
     /**
 	* Set the Y speed of the players mallet to a given value.
-	* @param pos The new Y speed value
+	* @param speed The new Y speed value
 	*/
     public void setYSpeed(double speed) {
         Mallet.setYSpeed(speed);
@@ -113,7 +113,7 @@ public class Player {
     }
     /**
 	* Set the players score to a given value.
-	* @param pos The new score
+	* @param score The new score
 	*/
     public void setScore(int score) {
         Score = score;
@@ -122,6 +122,7 @@ public class Player {
 	* Deflects the puck away from the players mallet.
 	* @param puckBall The puck being deflected
     * @param soundPlayer The soundplayer object being used to play sounds
+    * @param pitch The pitch object the game is being played on
 	*/
     public void deflectPuck(Puck puckBall, SoundPlayer soundPlayer, Pitch pitch) {
 
@@ -233,6 +234,7 @@ public class Player {
     /**
 	* Check if the players mallet is colliding with a given puck.
 	* @param puck The puck being checked for collisions.
+    * @return Whether the puck is touching the players mallet or not.
 	*/
     public boolean isTouchingPuck(Puck puck) {
         // Use pythagoras theorem to calculate distance between puck and player
@@ -255,7 +257,8 @@ public class Player {
     * @param xPuckPos The given puck X position.
     * @param yPuckPos The given puck Y position.
     * @param xMalletPos The given mallet X position.
-    * @param yMalletkPos The given mallet Y position.
+    * @param yMalletPos The given mallet Y position.
+    * @return Whether the puck is touching the players mallet or not.
 	*/
     public boolean isTouchingPuck(Puck puck, double xPuckPos, double yPuckPos, double xMalletPos, double yMalletPos) {
         // Use pythagoras theorem to calculate distance between puck and player
@@ -278,6 +281,7 @@ public class Player {
     * @param newYSpeed The new Y speed of the mallet.
     * @param pitch The pitch object the game is being played on.
     * @param soundPlayer The soundplayer object being used to play soumds.
+    * @param puck The game puck.
 	*/
     public void movePlayer(double newXSpeed, double newYSpeed, Pitch pitch, SoundPlayer soundPlayer, Puck puck) {
         // Calculate new position using their speed

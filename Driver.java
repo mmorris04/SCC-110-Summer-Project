@@ -293,6 +293,10 @@ public class Driver {
         Player2.movePlayer(player2XSpeed, player2YSpeed, Pitch, soundPlayer, Puck); 
     }
 
+    /**
+     * The main method
+     * @param args
+     */
     public static void main(String args[]) {
 
         // Instantiate objects

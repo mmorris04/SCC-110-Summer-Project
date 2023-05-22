@@ -6,6 +6,16 @@ public class Puck {
     private GameArena gArena;
     private SoundPlayer soundPlayer;
 
+    /**
+	* Creates a new player object.
+	* @param garena The GameArena object.
+    * @param x The starting X position of the puck
+    * @param y The starting Y position of the puck
+    * @param diameter The diameter of the puck
+    * @param colour The colour of the puck
+    * @param layer The layer on which the puck is visible on
+    * @param soundPlayerInit The SoundPlayer object used for playing sounds
+	*/
     public Puck(GameArena garena, int x, int y, int diameter, String colour, int layer, SoundPlayer soundPlayerInit) {
         gArena = garena;
         PuckObj = new Ball(x, y, diameter, colour, layer);
@@ -26,6 +36,10 @@ public class Puck {
 
     /**
 	 * Handles the pucks collisions with the pitch boundary.
+     * @param pitch The pitch object the game is being played on
+     * @param Player1 The player 1 object.
+     * @param Player2 The player 2 object.
+     * @return 0 if puck is touching a player, 1 if it is not. 
 	*/
     public int handlePuckCollisions(Pitch pitch, Player Player1, Player Player2) {
         Double newPuckXPosition = roundTo1DP(getXPosition()+getXSpeed());
@@ -123,7 +137,7 @@ public class Puck {
 
     /**
 	* Set the X speed of the puck to a given value.
-	* @param pos The new X speed value
+	* @param speed The new X speed value
 	*/
     public void setXSpeed(double speed) {
         PuckObj.setXSpeed(speed);
@@ -131,7 +145,7 @@ public class Puck {
 
     /**
 	* Set the Y speed of the puck to a given value.
-	* @param pos The new Y speed value
+	* @param speed The new Y speed value
 	*/
     public void setYSpeed(double speed) {
         PuckObj.setYSpeed(speed);
@@ -181,7 +195,7 @@ public class Puck {
     }
     /**
 	* Set the Y position of the puck to a given value .
-	* @param num The decimal to be rounded to 1 decimal place.
+	* @param pos The new Y position value
     * @param pitch The pitch the game is being played on
     * @param forced Whether or not the position change ignores the pitch boundary
 	*/
@@ -195,6 +209,7 @@ public class Puck {
     }
     /** 
     * Returns the PuckObj of the puck
+    * @return The puck object.
     */
     public Ball getPuckObj() {
         return PuckObj;

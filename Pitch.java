@@ -112,7 +112,7 @@ public class Pitch {
     
     /**
 	* Updates the winning score label with a given score.
-	* @param pos The new winning score value
+	* @param newscore The new winning score value
 	*/
     public void updateScoreToWin(int newscore) {
         scoreToWin.setText("Score needed to win: "+Integer.toString(newscore));
@@ -152,6 +152,7 @@ public class Pitch {
     /**
 	* Check if a given puck is touching either goal.
 	* @param puck The puck.
+    * @return The player number of the goal which the puck is touching. 
 	*/
     public int isTouchingGoal(Ball puck) {
         boolean touchingLeftGoal = (
@@ -189,6 +190,7 @@ public class Pitch {
 	* Checks whether a given ball is within the X boundaries of the pitch at a hypothetical X position.
 	* @param ball The ball.
     * @param desiredPosition The hypothetical X position of the ball.
+    * @return Whether the ball is in the X boundary or not at the given position.
 	*/
     public Boolean isInXBoundary(Ball ball, Double desiredPosition) {
         return (desiredPosition >= (pitch.getXPosition()+(ball.getSize()/2)) && desiredPosition <= ((pitch.getWidth()+pitch.getXPosition())-(ball.getSize()/2)));
@@ -198,6 +200,7 @@ public class Pitch {
 	* Checks whether a given ball is within the Y boundaries of the pitch at a hypothetical Y position.
 	* @param ball The ball.
     * @param desiredPosition The hypothetical Y position of the ball.
+    * @return Whether the ball is in the Y boundary or not at the given position,
 	*/
     public Boolean isInYBoundary(Ball ball, Double desiredPosition) {
         return (desiredPosition >= (pitch.getYPosition()+ball.getSize()/2) && desiredPosition <= (pitch.getYPosition()+pitch.getHeight()-(ball.getSize()/2)));
@@ -207,6 +210,7 @@ public class Pitch {
 	* Checks whether a given ball is within the X boundaries of the left side of the pitch at a hypothetical X position.
 	* @param ball The ball.
     * @param desiredPosition The hypothetical X position of the ball.
+    * @return Whether the ball is in the left side of the pitch at the given position.
 	*/
     public Boolean isIn1XBoundary(Ball ball, Double desiredPosition) {
         return (desiredPosition <= ((centreLine.getXPosition()+1)-(ball.getSize()/2)) && desiredPosition >= (pitch.getXPosition()+(ball.getSize()/2)));
@@ -216,6 +220,7 @@ public class Pitch {
 	* Checks whether a given ball is within the X boundaries of the right side of the pitch at a hypothetical X position.
 	* @param ball The ball.
     * @param desiredPosition The hypothetical X position of the ball.
+    * @return Whether the ball is in the right side of the pitch at the given position.
 	*/
     public Boolean isIn2XBoundary(Ball ball, Double desiredPosition) {
         return (desiredPosition >= (centreLine.getXPosition()+(ball.getSize()/2)) && desiredPosition <= ((pitch.getWidth()+pitch.getXPosition())-(ball.getSize()/2)));

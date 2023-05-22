@@ -15,7 +15,7 @@ public class SoundPlayer {
     };
 
     /**
-    * Muteds & unmutes sound effects.
+    * Mutes and unmutes sound effects.
     * @param pitch The pitch the game is being played on.
     */
     public void toggleMute(Pitch pitch) {
