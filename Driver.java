@@ -230,6 +230,14 @@ public class Driver {
             try { Thread.sleep(500); }
             catch (Exception e) {};
         };
+
+        // Restart round cheat
+        if (gArena.letterPressed('R')) {
+            gameActive = false;
+            try { Thread.sleep(500); }
+            catch (Exception e) {};
+        };
+
         if (goal2Moving) {
             Pitch.moveGoal("Goal2");
         }
