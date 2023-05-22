@@ -1,3 +1,6 @@
+/**
+* This class represents the puck in the game.
+*/
 public class Puck {
     private Ball PuckObj;
     private GameArena gArena;
